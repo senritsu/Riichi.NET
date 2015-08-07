@@ -42,6 +42,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Analysis\Meld.cs" />
+    <Compile Include="Analysis\Yaku.cs" />
+    <Compile Include="Analysis\YakuDetails.cs" />
     <Compile Include="Hand.cs" />
     <Compile Include="Tile.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
