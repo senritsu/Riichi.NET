@@ -1,4 +1,4 @@
-# RiichiSharp
+# Riichi.NET
 C# library for Riichi Mahjong (Japanese Mahjong)
 
 Intended as a standalone pure C# library for everything related to Japanese Riichi Mahjong.
