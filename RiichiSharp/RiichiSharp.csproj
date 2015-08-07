@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>RiichiSharp</RootNamespace>
     <AssemblyName>RiichiSharp</AssemblyName>
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
   </PropertyGroup>
@@ -43,15 +43,15 @@
   <ItemGroup>
     <Compile Include="Analysis\HandAnalyzer.cs" />
     <Compile Include="Analysis\Meld.cs" />
+    <Compile Include="Rules\WinContext.cs" />
     <Compile Include="Analysis\Yaku.cs" />
     <Compile Include="Analysis\YakuDetails.cs" />
     <Compile Include="Hand.cs" />
+    <Compile Include="Rules\GameState.cs" />
     <Compile Include="Tile.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Rules\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Content Include="riichi.py" />
   </ItemGroup>
