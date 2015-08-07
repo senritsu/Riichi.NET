@@ -41,6 +41,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Analysis\HandAnalyzer.cs" />
     <Compile Include="Analysis\Meld.cs" />
     <Compile Include="Analysis\Yaku.cs" />
     <Compile Include="Analysis\YakuDetails.cs" />

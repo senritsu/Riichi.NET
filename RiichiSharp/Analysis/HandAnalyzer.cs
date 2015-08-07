@@ -22,26 +22,10 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 \***************************************************************************/
 
-using System.Collections.Generic;
-using System.Linq;
-
-namespace RiichiSharp
+namespace RiichiSharp.Analysis
 {
-    public enum RiichiState
+    public class HandAnalyzer
     {
-        None,
-        Riichi,
-        DoubleRiichi,
-        OpenRiichi
-    }
 
-    public class Hand
-    {
-        public List<TileState> Tiles { get; set; }
-
-        public bool Open
-        {
-            get { return Tiles.Any(x => x.Open); }
-        }
     }
 }
