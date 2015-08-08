@@ -88,7 +88,7 @@ namespace RiichiSharp.Rules
                 {
                     return last.Oya;
                 }
-                return last.Result.Draw || last.Oya == last.Result.Winner ? last.Oya : (last.Oya + 1)%4;
+                return (last.Result.Draw || last.Oya == last.Result.Winner) ? last.Oya : (last.Oya + 1)%4;
             }
         }
 
@@ -160,7 +160,7 @@ namespace RiichiSharp.Rules
         public Hand WinningHand { get; set; }
         public int Value { get; set; }
 
-        public bool Draw { get { return Winner.HasValue; } }
+        public bool Draw { get { return !Winner.HasValue; } }
 
         public int? Winner { get; set; }
         public bool[] Tenpai { get; set; }
