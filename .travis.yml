@@ -1,9 +1,8 @@
 language: csharp
 solution: RiichiSharp.sln
-
-install:
+before_install:
+  - sudo apt-get install nunit-console
+before_script:
   - nuget restore RiichiSharp.sln
-  - nuget install NUnit.Runners -Version 2.6.4 -OutputDirectory testrunner
-script:
-  - xbuild /p:Configuration=Release RiichiSharp.sln
-  - mono ./testrunner/NUnit.Runners.2.6.4/tools/nunit-console.exe ./RiichiSharp.Tests/bin/Release/RiichiSharp.Tests.dll
+after_script:
+  - nunit-console RiichiSharp.Tests/bin/Release/RiichiSharp.Tests.dll
