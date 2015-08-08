@@ -9,3 +9,5 @@ before_script:
   - nuget restore RiichiSharp.sln
 after_script:
   - nunit-console RiichiSharp.Tests/bin/Release/RiichiSharp.Tests.dll
+after_success:
+  - bash <(curl -s https://codecov.io/bash)
