@@ -24,6 +24,7 @@ THE SOFTWARE.
 
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using NUnit.Framework;
 using RiichiSharp.Rules;
 
@@ -140,6 +141,77 @@ namespace RiichiSharp.Tests
         public GameState GameState_ReturnsCorrectly(MahjongGame game)
         {
             return game.State;
+        }
+
+        private IEnumerable<TestCaseData> NextRound_Source
+        {
+            get
+            {
+                yield return new RoundBuilder().ToTestCaseData().Returns(1);
+                yield return new RoundBuilder().Result(0, 1).ToTestCaseData().Returns(2);
+                yield return new RoundBuilder()
+                    .Result(0, 1).Result(1, 2).Result(2, 3).Result(3, 0)
+                    .ToTestCaseData().Returns(5);
+            }
+        }
+
+        [TestCaseSource("NextRound_Source")]
+        public int NextRound_AddsRoundCorrectly(MahjongGame game)
+        {
+            game.NextRound();
+            return game.Rounds.Count;
+        }
+
+        private IEnumerable<TestCaseData> NextRound_Exception_Source
+        {
+            get
+            {
+                yield return new RoundBuilder().Unfinished(0).Throws(typeof(RoundRunningException));
+                yield return new RoundBuilder().Result(0, 1).Unfinished(1).Throws(typeof(RoundRunningException));
+
+                yield return new RoundBuilder(true)
+                    .Result(0, 1).Result(1, 2).Result(2, 3).Result(3, 0)
+                    .ToTestCaseData().Throws(typeof(GameOverException));
+                yield return
+                    new RoundBuilder().Result(0, 1)
+                        .Result(1, 2)
+                        .Result(2, 3)
+                        .Result(3, 0)
+                        .Result(0, 1)
+                        .Result(1, 2)
+                        .Result(2, 3)
+                        .Result(3, 0)
+                        .ToTestCaseData()
+                        .Throws(typeof(GameOverException));
+            }
+        }
+
+        [TestCaseSource("NextRound_Exception_Source")]
+        public void NextRound_ThrowsExceptionWhenRoundRunningOrGameFinished(MahjongGame game)
+        {
+            game.NextRound();
+        }
+
+        private IEnumerable<TestCaseData> NextRound_Oya_Source
+        {
+            get
+            {
+                yield return new RoundBuilder().ToTestCaseData().Returns(0);
+                yield return new RoundBuilder().Result(0, 1).ToTestCaseData().Returns(1);
+                yield return new RoundBuilder()
+                    .Result(0, 1).Result(1, 2).Result(2, 3)
+                    .ToTestCaseData().Returns(3);
+                yield return new RoundBuilder()
+                    .Result(0, 1).Result(1, 2).Result(2, 3).Result(3, 0)
+                    .ToTestCaseData().Returns(0);
+            }
+        }
+
+        [TestCaseSource("NextRound_Oya_Source")]
+        public int NextRound_UpdatesOyaCorrectly(MahjongGame game)
+        {
+            game.NextRound();
+            return game.Rounds.Last().Oya;
         }
     }
 }

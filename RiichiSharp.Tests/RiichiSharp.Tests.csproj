@@ -49,6 +49,8 @@
   <ItemGroup>
     <Compile Include="MahjongGameTests.cs" />
     <Compile Include="MeldTests.cs" />
+    <Compile Include="RoundResultTests.cs" />
+    <Compile Include="RoundStateTests.cs" />
     <Compile Include="TileTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
