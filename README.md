@@ -4,7 +4,7 @@ C# library for Riichi Mahjong (Japanese Mahjong)
 Intended as a standalone pure C# library for everything related to Japanese Riichi Mahjong.
 Will be supplemented by a Unity3D wrapper for easy integration in Unity projects.
 
-[![Build Status](https://travis-ci.org/senritsu/Riichi.NET.svg?branch=master)](https://travis-ci.org/senritsu/Riichi.NET)
+[![Build status](https://ci.appveyor.com/api/projects/status/cj2kq6shw5benbua?svg=true)](https://ci.appveyor.com/project/senritsu/riichi-net)
 
 ## Planned Features:
 ### phase 1
