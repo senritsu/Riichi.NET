@@ -5,7 +5,6 @@ Intended as a standalone pure C# library for everything related to Japanese Riic
 Will be supplemented by a Unity3D wrapper for easy integration in Unity projects.
 
 [![Build Status](https://travis-ci.org/senritsu/Riichi.NET.svg?branch=master)](https://travis-ci.org/senritsu/Riichi.NET)
-[![Coverage Status](https://coveralls.io/repos/senritsu/Riichi.NET/badge.svg?branch=master&service=github)](https://coveralls.io/github/senritsu/Riichi.NET?branch=master)
 
 ## Planned Features:
 ### phase 1
