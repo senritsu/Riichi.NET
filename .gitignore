@@ -229,5 +229,3 @@ $RECYCLE.BIN/
 
 # Windows shortcuts
 *.lnk
-
-!NuGet.exe
