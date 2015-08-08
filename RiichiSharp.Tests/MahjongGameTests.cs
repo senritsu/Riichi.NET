@@ -23,7 +23,6 @@ THE SOFTWARE.
 \***************************************************************************/
 
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using NUnit.Framework;
 using RiichiSharp.Rules;

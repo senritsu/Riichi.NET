@@ -27,6 +27,7 @@ using RiichiSharp.Rules;
 
 namespace RiichiSharp.Tests
 {
+    [TestFixture]
     public class RoundResultTests
     {
         [TestCase(null, ExpectedResult = true)]
