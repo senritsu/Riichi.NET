@@ -23,7 +23,6 @@ THE SOFTWARE.
 \***************************************************************************/
 
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using RiichiSharp.Utilities;
 
@@ -129,6 +128,11 @@ namespace RiichiSharp.Rules
                 case GameState.GameFinished:
                     throw new GameOverException();
             }
+
+            Rounds.Add(new RoundState
+            {
+                Oya = Oya,
+            });
         }
     }
 
@@ -153,7 +157,10 @@ namespace RiichiSharp.Rules
     {
         public int Oya { get; set; }
 
-        public Wind RoundWind { get; set; }
+        public Wind RoundWind
+        {
+            get { return (Wind) (Tile.Ton + Oya); }
+        }
 
         public List<Tile> Dora { get; set; }
         public List<Tile> Uradora { get; set; }
