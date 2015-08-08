@@ -29,16 +29,16 @@ using RiichiSharp.Rules;
 namespace RiichiSharp.Tests
 {
     [TestFixture]
-    public class GameStateTests
+    public class MahjongGameTests
     {
 
         private class RoundBuilder
         {
-            private readonly GameState _gameState = new GameState();
+            private readonly MahjongGame _gameState = new MahjongGame();
 
             public RoundBuilder Result(int oya, int? winner)
             {
-                _gameState.Rounds.Add(new RoundState {Oya = oya, Result = new RoundResult {Draw = !winner.HasValue, Winner = winner ?? 0}});
+                _gameState.Rounds.Add(new RoundState {Oya = oya, Result = new RoundResult { Winner = winner }});
                 return this;
             }
 
@@ -53,9 +53,8 @@ namespace RiichiSharp.Tests
                 return new TestCaseData(_gameState);
             }
         }
-        
 
-        private IEnumerable<TestCaseData> Oyarenchan_Source
+        private IEnumerable<TestCaseData> Renchan_Source
         {
             get
             {
@@ -70,10 +69,35 @@ namespace RiichiSharp.Tests
             }
         }
 
-        [TestCaseSource("Oyarenchan_Source")]
-        public int Oyarenchan_Calculation(GameState state)
+        [TestCaseSource("Renchan_Source")]
+        public int Renchan_Calculation(MahjongGame game)
         {
-            return state.Oyarenchan;
+            return game.Renchan;
+        }
+
+        private IEnumerable<TestCaseData> Oya_Source
+        {
+            get
+            {
+                yield return new RoundBuilder().Unfinished(0).Returns(0);
+                yield return new RoundBuilder().Result(0, null).ToTestCaseData().Returns(0);
+                yield return new RoundBuilder().Result(0, 0).ToTestCaseData().Returns(0);
+                yield return new RoundBuilder().Result(0, 1).ToTestCaseData().Returns(1);
+                yield return new RoundBuilder().Result(0, 1).Result(1, 1).ToTestCaseData().Returns(1);
+                yield return new RoundBuilder().Result(0, 1).Result(1, null).ToTestCaseData().Returns(1);
+                yield return new RoundBuilder().Result(0, 1).Result(1, 3).ToTestCaseData().Returns(2);
+                yield return new RoundBuilder().Result(0, 2).Result(1, 2).Result(2, 0).ToTestCaseData().Returns(3);
+                yield return new RoundBuilder().Result(0, 3).Result(1, 3).Result(2, 3).Unfinished(3).Returns(3);
+                yield return new RoundBuilder().Result(0, 3).Result(1, 3).Result(2, 3).Result(3, null).ToTestCaseData().Returns(3);
+                yield return new RoundBuilder().Result(0, 3).Result(1, 3).Result(2, 3).Result(3, 1).ToTestCaseData().Returns(0);
+                yield return new RoundBuilder().Result(0, 3).Result(1, 3).Result(2, 3).Result(3, 1).Result(0,2).ToTestCaseData().Returns(1);
+            }
+        }
+
+        [TestCaseSource("Oya_Source")]
+        public int Oya_Calculation(MahjongGame game)
+        {
+            return game.Oya;
         }
     }
 }

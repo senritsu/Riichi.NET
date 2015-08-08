@@ -25,7 +25,7 @@ THE SOFTWARE.
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Security.Cryptography.X509Certificates;
+using RiichiSharp.Utilities;
 
 namespace RiichiSharp.Rules
 {
@@ -37,11 +37,62 @@ namespace RiichiSharp.Rules
         Pei = Tile.Pei
     }
 
-    public class GameState
+    public enum GameState
     {
-        public bool Tonpuuseen { get; set; }
+        Preparation,
+        RoundRunning,
+        BetweenRounds,
+        GameFinished
+    }
 
-        public int Oyarenchan
+    public class MahjongGame
+    {
+        public bool Tonpuuseen { get; private set; }
+
+        public GameState State
+        {
+            get
+            {
+                if (Rounds.Count == 0)
+                {
+                    return GameState.Preparation;
+                }
+
+                var last = Rounds.Last();
+
+                if (last.Result == null)
+                {
+                    return GameState.RoundRunning;
+                }
+
+                var lastPlayerDealerCount = Rounds.Select(x => x.Oya).RemoveSequentialDuplicates().Count(x => x == 3);
+                var lastPlayerLostOya = last.Oya == 3 && !last.Result.Draw && last.Result.Winner != 3;
+                
+                var finished = lastPlayerLostOya && lastPlayerDealerCount == (Tonpuuseen ? 1 : 2);
+                return finished ? GameState.GameFinished : GameState.BetweenRounds;
+            }
+        }
+
+        public int Oya
+        {
+            get
+            {
+                if (Rounds.Count == 0)
+                {
+                    return 0;
+                }
+
+                var last = Rounds.Last();
+
+                if (last.Result == null)
+                {
+                    return last.Oya;
+                }
+                return last.Result.Draw || last.Oya == last.Result.Winner ? last.Oya : (last.Oya + 1)%4;
+            }
+        }
+
+        public int Renchan
         {
             get
             {
@@ -58,6 +109,23 @@ namespace RiichiSharp.Rules
             }
         }
 
+        public bool RoundRunning
+        {
+            get { return Rounds.Count == 0 || Rounds.Last().Result == null; }
+        }
+
+        public bool GameFinished
+        {
+            get
+            {
+                var lastRound = Rounds.Last();
+                return lastRound.Oya == 3 && lastRound.Result != null && lastRound.Result.Winner != 3 &&
+                       Rounds.Count(x => x.Oya == 3) == (Tonpuuseen
+                           ? 1
+                           : 2);
+            }
+        }
+
         public List<RoundState> Rounds { get; set; }
 
         public int[] Points { get; set; }
@@ -65,11 +133,24 @@ namespace RiichiSharp.Rules
 
         public bool[] Yakitori { get; set; }
 
-        public GameState()
+        public MahjongGame(bool tonpuusen = false)
         {
+            Tonpuuseen = tonpuusen;
             Rounds = new List<RoundState>();
             Points = new int[4];
             Yakitori = new[] {false, false, false, false};
+        }
+
+        public void NextRound()
+        {
+            if (RoundRunning)
+            {
+                throw new RoundRunningException();
+            }
+            if (GameFinished)
+            {
+                throw new GameOverException();
+            }
         }
     }
 
@@ -79,13 +160,21 @@ namespace RiichiSharp.Rules
         public Hand WinningHand { get; set; }
         public int Value { get; set; }
 
-        public bool Draw { get; set; }
-        public int Winner { get; set; }
+        public bool Draw { get { return Winner.HasValue; } }
+
+        public int? Winner { get; set; }
+        public bool[] Tenpai { get; set; }
+
+        public RoundResult()
+        {
+            Tenpai = new bool[4];
+        }
     }
 
     public class RoundState
     {
         public int Oya { get; set; }
+
         public Wind RoundWind { get; set; }
 
         public List<Tile> Dora { get; set; }
