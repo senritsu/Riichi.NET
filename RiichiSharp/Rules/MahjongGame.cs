@@ -100,29 +100,8 @@ namespace RiichiSharp.Rules
                     Rounds.ToArray()
                     .Reverse()
                     .Where(x => x.Result != null)
-                    .TakeWhile(x =>
-                    {
-                        Debug.WriteLine("Oya: {0}, Current Oya: {1}, Winner: {2}, Draw: {3}", x.Oya, Rounds.Last().Oya, x.Result.Winner, x.Result.Draw);
-                        return x.Oya == Rounds.Last().Oya && (x.Result.Winner == x.Oya || x.Result.Draw);
-                    })
+                    .TakeWhile(x => x.Oya == Rounds.Last().Oya && (x.Result.Winner == x.Oya || x.Result.Draw))
                     .Count();
-            }
-        }
-
-        public bool RoundRunning
-        {
-            get { return Rounds.Count == 0 || Rounds.Last().Result == null; }
-        }
-
-        public bool GameFinished
-        {
-            get
-            {
-                var lastRound = Rounds.Last();
-                return lastRound.Oya == 3 && lastRound.Result != null && lastRound.Result.Winner != 3 &&
-                       Rounds.Count(x => x.Oya == 3) == (Tonpuuseen
-                           ? 1
-                           : 2);
             }
         }
 
@@ -143,13 +122,12 @@ namespace RiichiSharp.Rules
 
         public void NextRound()
         {
-            if (RoundRunning)
+            switch (State)
             {
-                throw new RoundRunningException();
-            }
-            if (GameFinished)
-            {
-                throw new GameOverException();
+                case GameState.RoundRunning:
+                    throw new RoundRunningException();
+                case GameState.GameFinished:
+                    throw new GameOverException();
             }
         }
     }

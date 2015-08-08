@@ -23,6 +23,7 @@ THE SOFTWARE.
 \***************************************************************************/
 
 using System.Collections.Generic;
+using System.Diagnostics;
 using NUnit.Framework;
 using RiichiSharp.Rules;
 
@@ -34,7 +35,12 @@ namespace RiichiSharp.Tests
 
         private class RoundBuilder
         {
-            private readonly MahjongGame _gameState = new MahjongGame();
+            private readonly MahjongGame _gameState;
+
+            public RoundBuilder(bool tonpuusen = false)
+            {
+                _gameState = new MahjongGame(tonpuusen);
+            }
 
             public RoundBuilder Result(int oya, int? winner)
             {
@@ -98,6 +104,42 @@ namespace RiichiSharp.Tests
         public int Oya_Calculation(MahjongGame game)
         {
             return game.Oya;
+        }
+
+        private IEnumerable<TestCaseData> GameState_Source
+        {
+            get
+            {
+                yield return new RoundBuilder().ToTestCaseData().Returns(GameState.Preparation);
+
+                yield return new RoundBuilder().Result(0, 1).ToTestCaseData().Returns(GameState.BetweenRounds);
+                yield return new RoundBuilder()
+                    .Result(0, 1).Result(1, 2).Result(2, 3).Result(3, 0)
+                    .ToTestCaseData().Returns(GameState.BetweenRounds);
+
+                yield return new RoundBuilder().Unfinished(0).Returns(GameState.RoundRunning);
+                yield return new RoundBuilder().Result(0, 1).Unfinished(1).Returns(GameState.RoundRunning);
+                yield return new RoundBuilder().Result(0, 1).Result(1, 2).Result(2, 3).Result(3, 1).Unfinished(1).Returns(GameState.RoundRunning);
+
+                yield return new RoundBuilder(true).Result(0, 1).Result(1, 2).Result(2, 3).Result(3, 0).ToTestCaseData().Returns(GameState.GameFinished);
+                yield return
+                    new RoundBuilder().Result(0, 1)
+                        .Result(1, 2)
+                        .Result(2, 3)
+                        .Result(3, 0)
+                        .Result(0, 1)
+                        .Result(1, 2)
+                        .Result(2, 3)
+                        .Result(3, 0)
+                        .ToTestCaseData()
+                        .Returns(GameState.GameFinished);
+            }
+        }
+
+        [TestCaseSource("GameState_Source")]
+        public GameState GameState_ReturnsCorrectly(MahjongGame game)
+        {
+            return game.State;
         }
     }
 }
