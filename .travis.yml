@@ -1,3 +1,4 @@
+sudo: false
 language: csharp
 solution: RiichiSharp.sln
 before_install:
