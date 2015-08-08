@@ -1,0 +1,1 @@
+".\packages\OpenCover.4.6.166\tools\OpenCover.Console.exe" -filter:"+[RiichiSharp]*" -target:".\packages\NUnit.Runners.2.6.4\tools\nunit-console.exe" -register:user -targetargs:"/nologo /noshadow .\RiichiSharp.Tests\bin\Debug\RiichiSharp.Tests.dll" -output:coverage.xml
