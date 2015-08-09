@@ -22,22 +22,29 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 \***************************************************************************/
 
-using System;
+using System.Collections.Generic;
+using NUnit.Framework;
+using RiichiSharp.Analysis;
 
-namespace RiichiSharp.Rules
+namespace RiichiSharp.Tests
 {
-    public class RoundRunningException : InvalidOperationException
+    [TestFixture]
+    public class YakuTests
     {
-        public RoundRunningException() : base("A round is still in progress") { }
-    }
+        private IEnumerable<TestCaseData> ImplicitConversion_Source
+        {
+            get
+            {
+                yield return new TestCaseData(YakuDetails.Data[Yaku.Riichi]).Returns(Yaku.Riichi);
+                yield return new TestCaseData(YakuDetails.Data[Yaku.ChiiToitsu]).Returns(Yaku.ChiiToitsu);
+                yield return new TestCaseData(YakuDetails.Data[Yaku.Daisharin]).Returns(Yaku.Daisharin);
+            }
+        }
 
-    public class NoRoundRunningException : InvalidOperationException
-    {
-        public NoRoundRunningException() : base("No round currently running") { }
-    }
-
-    public class GameOverException : InvalidOperationException
-    {
-        public GameOverException() : base("The game is already finished") {}
+        [TestCaseSource("ImplicitConversion_Source")]
+        public Yaku ImplicitConversion(YakuDetails details)
+        {
+            return details;
+        }
     }
 }

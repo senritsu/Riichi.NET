@@ -104,7 +104,9 @@ namespace RiichiSharp.Rules
             }
         }
 
-        public List<RoundState> Rounds { get; set; }
+        private readonly List<RoundState> _rounds = new List<RoundState>();
+        public IReadOnlyCollection<RoundState> Rounds { get { return _rounds; } }
+        public RoundState CurrentRound { get { return Rounds.LastOrDefault(); } }
 
         public int[] Points { get; set; }
         public int RiichiPoints { set; get; }
@@ -114,9 +116,22 @@ namespace RiichiSharp.Rules
         public MahjongGame(bool tonpuusen = false)
         {
             Tonpuuseen = tonpuusen;
-            Rounds = new List<RoundState>();
             Points = new int[4];
             Yakitori = new[] {false, false, false, false};
+        }
+
+        public void FinishRound(RoundResult result)
+        {
+            switch (State)
+            {
+                case GameState.Preparation:
+                case GameState.BetweenRounds:
+                    throw new NoRoundRunningException();
+                case GameState.GameFinished:
+                    throw new GameOverException();
+            }
+
+            CurrentRound.Result = result;
         }
 
         public void NextRound()
@@ -129,7 +144,7 @@ namespace RiichiSharp.Rules
                     throw new GameOverException();
             }
 
-            Rounds.Add(new RoundState
+            _rounds.Add(new RoundState
             {
                 Oya = Oya,
             });

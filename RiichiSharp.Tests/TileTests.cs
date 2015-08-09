@@ -23,6 +23,7 @@ THE SOFTWARE.
 \***************************************************************************/
 
 using System;
+using System.Collections.Generic;
 using NUnit.Framework;
 
 namespace RiichiSharp.Tests
@@ -95,6 +96,92 @@ namespace RiichiSharp.Tests
             return tile.Suit();
         }
 
+        [TestCase(Tile.Pin1, ExpectedResult = false)]
+        [TestCase(Tile.Pin5, ExpectedResult = false)]
+        [TestCase(Tile.Pin9, ExpectedResult = false)]
+        [TestCase(Tile.Man1, ExpectedResult = false)]
+        [TestCase(Tile.Man2, ExpectedResult = false)]
+        [TestCase(Tile.Man9, ExpectedResult = false)]
+        [TestCase(Tile.Sou1, ExpectedResult = false)]
+        [TestCase(Tile.Sou7, ExpectedResult = false)]
+        [TestCase(Tile.Sou9, ExpectedResult = false)]
+        [TestCase(Tile.Hatsu, ExpectedResult = true)]
+        [TestCase(Tile.Haku, ExpectedResult = true)]
+        [TestCase(Tile.Chun, ExpectedResult = true)]
+        [TestCase(Tile.Ton, ExpectedResult = true)]
+        [TestCase(Tile.Nan, ExpectedResult = true)]
+        [TestCase(Tile.Xia, ExpectedResult = true)]
+        [TestCase(Tile.Pei, ExpectedResult = true)]
+        public bool Tile_IsHonor(Tile tile)
+        {
+            return tile.IsHonor();
+        }
+
+        [TestCase(Tile.Pin1, ExpectedResult = true)]
+        [TestCase(Tile.Pin5, ExpectedResult = true)]
+        [TestCase(Tile.Pin9, ExpectedResult = true)]
+        [TestCase(Tile.Man1, ExpectedResult = true)]
+        [TestCase(Tile.Man2, ExpectedResult = true)]
+        [TestCase(Tile.Man9, ExpectedResult = true)]
+        [TestCase(Tile.Sou1, ExpectedResult = true)]
+        [TestCase(Tile.Sou7, ExpectedResult = true)]
+        [TestCase(Tile.Sou9, ExpectedResult = true)]
+        [TestCase(Tile.Hatsu, ExpectedResult = false)]
+        [TestCase(Tile.Haku, ExpectedResult = false)]
+        [TestCase(Tile.Chun, ExpectedResult = false)]
+        [TestCase(Tile.Ton, ExpectedResult = false)]
+        [TestCase(Tile.Nan, ExpectedResult = false)]
+        [TestCase(Tile.Xia, ExpectedResult = false)]
+        [TestCase(Tile.Pei, ExpectedResult = false)]
+        public bool Tile_IsNumeric(Tile tile)
+        {
+            return tile.IsNumeric();
+        }
+
+        [TestCase(Tile.Pin1, ExpectedResult = false)]
+        [TestCase(Tile.Pin2, ExpectedResult = true)]
+        [TestCase(Tile.Pin4, ExpectedResult = true)]
+        [TestCase(Tile.Pin8, ExpectedResult = true)]
+        [TestCase(Tile.Pin9, ExpectedResult = false)]
+        [TestCase(Tile.Man1, ExpectedResult = false)]
+        [TestCase(Tile.Man2, ExpectedResult = true)]
+        [TestCase(Tile.Man9, ExpectedResult = false)]
+        [TestCase(Tile.Sou1, ExpectedResult = false)]
+        [TestCase(Tile.Sou7, ExpectedResult = true)]
+        [TestCase(Tile.Sou9, ExpectedResult = false)]
+        [TestCase(Tile.Hatsu, ExpectedResult = false)]
+        [TestCase(Tile.Haku, ExpectedResult = false)]
+        [TestCase(Tile.Chun, ExpectedResult = false)]
+        [TestCase(Tile.Ton, ExpectedResult = false)]
+        [TestCase(Tile.Nan, ExpectedResult = false)]
+        [TestCase(Tile.Xia, ExpectedResult = false)]
+        [TestCase(Tile.Pei, ExpectedResult = false)]
+        public bool Tile_IsSimple(Tile tile)
+        {
+            return tile.IsSimple();
+        }
+
+        [TestCase(Tile.Pin1, ExpectedResult = true)]
+        [TestCase(Tile.Pin5, ExpectedResult = false)]
+        [TestCase(Tile.Pin9, ExpectedResult = true)]
+        [TestCase(Tile.Man1, ExpectedResult = true)]
+        [TestCase(Tile.Man2, ExpectedResult = false)]
+        [TestCase(Tile.Man9, ExpectedResult = true)]
+        [TestCase(Tile.Sou1, ExpectedResult = true)]
+        [TestCase(Tile.Sou7, ExpectedResult = false)]
+        [TestCase(Tile.Sou9, ExpectedResult = true)]
+        [TestCase(Tile.Hatsu, ExpectedResult = false)]
+        [TestCase(Tile.Haku, ExpectedResult = false)]
+        [TestCase(Tile.Chun, ExpectedResult = false)]
+        [TestCase(Tile.Ton, ExpectedResult = false)]
+        [TestCase(Tile.Nan, ExpectedResult = false)]
+        [TestCase(Tile.Xia, ExpectedResult = false)]
+        [TestCase(Tile.Pei, ExpectedResult = false)]
+        public bool Tile_IsTerminal(Tile tile)
+        {
+            return tile.IsTerminal();
+        }
+
         [TestCase(Tile.Pin8, ExpectedResult = true)]
         [TestCase(Tile.Man4, ExpectedResult = true)]
         [TestCase(Tile.Sou6, ExpectedResult = true)]
@@ -103,6 +190,22 @@ namespace RiichiSharp.Tests
         public bool Tile_CanFormSequence(Tile tile)
         {
             return tile.CanFormSequence();
+        }
+
+        private IEnumerable<TestCaseData> Implicit_TileState_Conversion_Source
+        {
+            get
+            {
+                yield return new TestCaseData(new TileState{Tile = Tile.Pin1}).Returns(Tile.Pin1);
+                yield return new TestCaseData(new TileState{Tile = Tile.Haku}).Returns(Tile.Haku);
+                yield return new TestCaseData(new TileState{Tile = Tile.Ton}).Returns(Tile.Ton);
+            }
+        }
+        
+        [TestCaseSource("Implicit_TileState_Conversion_Source")]
+        public Tile Implicit_TileState_Conversion(TileState state)
+        {
+            return state;
         }
     }
 }

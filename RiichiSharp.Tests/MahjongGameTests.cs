@@ -42,15 +42,16 @@ namespace RiichiSharp.Tests
                 _gameState = new MahjongGame(tonpuusen);
             }
 
-            public RoundBuilder Result(int oya, int? winner)
+            public RoundBuilder Result(int? winner)
             {
-                _gameState.Rounds.Add(new RoundState {Oya = oya, Result = new RoundResult { Winner = winner }});
+                _gameState.NextRound();
+                _gameState.FinishRound(new RoundResult { Winner = winner });
                 return this;
             }
 
-            public TestCaseData Unfinished(int oya)
+            public TestCaseData Unfinished()
             {
-                _gameState.Rounds.Add(new RoundState { Oya = oya });
+                _gameState.NextRound();
                 return ToTestCaseData();
             }
 
@@ -64,14 +65,14 @@ namespace RiichiSharp.Tests
         {
             get
             {
-                yield return new RoundBuilder().Result(0, 2).Result(1, 1).ToTestCaseData().Returns(1);
-                yield return new RoundBuilder().Result(0, 0).Result(0, 0).Result(0, 3).Result(1, 1).ToTestCaseData().Returns(1);
-                yield return new RoundBuilder().Result(0, 1).Result(1, 1).ToTestCaseData().Returns(1);
-                yield return new RoundBuilder().Result(0, 0).Result(0, null).Result(0, 0).ToTestCaseData().Returns(3);
-                yield return new RoundBuilder().Result(0, 0).Result(0, null).Result(0, 0).Unfinished(0).Returns(3);
-                yield return new RoundBuilder().Result(0, 0).Result(0, null).Result(0, 0).Result(0, 3).ToTestCaseData().Returns(0);
-                yield return new RoundBuilder().Result(0, 0).Result(0, 1).Result(1, null).Result(1,2).Result(2, 2).Unfinished(2).Returns(1);
-                yield return new RoundBuilder().Result(0, 1).Result(1, 2).Result(2, 3).Result(3,null).Result(3, 4).Unfinished(4).Returns(0);
+                yield return new RoundBuilder().Result(2).Result(1).ToTestCaseData().Returns(1);
+                yield return new RoundBuilder().Result(0).Result(0).Result(3).Result(1).ToTestCaseData().Returns(1);
+                yield return new RoundBuilder().Result(1).Result(1).ToTestCaseData().Returns(1);
+                yield return new RoundBuilder().Result(0).Result(null).Result(0).ToTestCaseData().Returns(3);
+                yield return new RoundBuilder().Result(0).Result(null).Result(0).Unfinished().Returns(3);
+                yield return new RoundBuilder().Result(0).Result(null).Result(0).Result(3).ToTestCaseData().Returns(0);
+                yield return new RoundBuilder().Result(0).Result(1).Result(null).Result(2).Result(2).Unfinished().Returns(1);
+                yield return new RoundBuilder().Result(1).Result(2).Result(3).Result(null).Result(4).Unfinished().Returns(0);
             }
         }
 
@@ -85,18 +86,18 @@ namespace RiichiSharp.Tests
         {
             get
             {
-                yield return new RoundBuilder().Unfinished(0).Returns(0);
-                yield return new RoundBuilder().Result(0, null).ToTestCaseData().Returns(0);
-                yield return new RoundBuilder().Result(0, 0).ToTestCaseData().Returns(0);
-                yield return new RoundBuilder().Result(0, 1).ToTestCaseData().Returns(1);
-                yield return new RoundBuilder().Result(0, 1).Result(1, 1).ToTestCaseData().Returns(1);
-                yield return new RoundBuilder().Result(0, 1).Result(1, null).ToTestCaseData().Returns(1);
-                yield return new RoundBuilder().Result(0, 1).Result(1, 3).ToTestCaseData().Returns(2);
-                yield return new RoundBuilder().Result(0, 2).Result(1, 2).Result(2, 0).ToTestCaseData().Returns(3);
-                yield return new RoundBuilder().Result(0, 3).Result(1, 3).Result(2, 3).Unfinished(3).Returns(3);
-                yield return new RoundBuilder().Result(0, 3).Result(1, 3).Result(2, 3).Result(3, null).ToTestCaseData().Returns(3);
-                yield return new RoundBuilder().Result(0, 3).Result(1, 3).Result(2, 3).Result(3, 1).ToTestCaseData().Returns(0);
-                yield return new RoundBuilder().Result(0, 3).Result(1, 3).Result(2, 3).Result(3, 1).Result(0,2).ToTestCaseData().Returns(1);
+                yield return new RoundBuilder().Unfinished().Returns(0);
+                yield return new RoundBuilder().Result(null).ToTestCaseData().Returns(0);
+                yield return new RoundBuilder().Result(0).ToTestCaseData().Returns(0);
+                yield return new RoundBuilder().Result(1).ToTestCaseData().Returns(1);
+                yield return new RoundBuilder().Result(1).Result(1).ToTestCaseData().Returns(1);
+                yield return new RoundBuilder().Result(1).Result(null).ToTestCaseData().Returns(1);
+                yield return new RoundBuilder().Result(1).Result(3).ToTestCaseData().Returns(2);
+                yield return new RoundBuilder().Result(2).Result(2).Result(0).ToTestCaseData().Returns(3);
+                yield return new RoundBuilder().Result(3).Result(3).Result(3).Unfinished().Returns(3);
+                yield return new RoundBuilder().Result(3).Result(3).Result(3).Result(null).ToTestCaseData().Returns(3);
+                yield return new RoundBuilder().Result(3).Result(3).Result(3).Result(1).ToTestCaseData().Returns(0);
+                yield return new RoundBuilder().Result(3).Result(3).Result(3).Result(1).Result(2).ToTestCaseData().Returns(1);
             }
         }
 
@@ -112,25 +113,25 @@ namespace RiichiSharp.Tests
             {
                 yield return new RoundBuilder().ToTestCaseData().Returns(GameState.Preparation);
 
-                yield return new RoundBuilder().Result(0, 1).ToTestCaseData().Returns(GameState.BetweenRounds);
+                yield return new RoundBuilder().Result(1).ToTestCaseData().Returns(GameState.BetweenRounds);
                 yield return new RoundBuilder()
-                    .Result(0, 1).Result(1, 2).Result(2, 3).Result(3, 0)
+                    .Result(1).Result(2).Result(3).Result(0)
                     .ToTestCaseData().Returns(GameState.BetweenRounds);
 
-                yield return new RoundBuilder().Unfinished(0).Returns(GameState.RoundRunning);
-                yield return new RoundBuilder().Result(0, 1).Unfinished(1).Returns(GameState.RoundRunning);
-                yield return new RoundBuilder().Result(0, 1).Result(1, 2).Result(2, 3).Result(3, 1).Unfinished(1).Returns(GameState.RoundRunning);
+                yield return new RoundBuilder().Unfinished().Returns(GameState.RoundRunning);
+                yield return new RoundBuilder().Result(1).Unfinished().Returns(GameState.RoundRunning);
+                yield return new RoundBuilder().Result(1).Result(2).Result(3).Result(1).Unfinished().Returns(GameState.RoundRunning);
 
-                yield return new RoundBuilder(true).Result(0, 1).Result(1, 2).Result(2, 3).Result(3, 0).ToTestCaseData().Returns(GameState.GameFinished);
+                yield return new RoundBuilder(true).Result(1).Result(2).Result(3).Result(0).ToTestCaseData().Returns(GameState.GameFinished);
                 yield return
-                    new RoundBuilder().Result(0, 1)
-                        .Result(1, 2)
-                        .Result(2, 3)
-                        .Result(3, 0)
-                        .Result(0, 1)
-                        .Result(1, 2)
-                        .Result(2, 3)
-                        .Result(3, 0)
+                    new RoundBuilder().Result(1)
+                        .Result(2)
+                        .Result(3)
+                        .Result(0)
+                        .Result(1)
+                        .Result(2)
+                        .Result(3)
+                        .Result(0)
                         .ToTestCaseData()
                         .Returns(GameState.GameFinished);
             }
@@ -147,9 +148,9 @@ namespace RiichiSharp.Tests
             get
             {
                 yield return new RoundBuilder().ToTestCaseData().Returns(1);
-                yield return new RoundBuilder().Result(0, 1).ToTestCaseData().Returns(2);
+                yield return new RoundBuilder().Result(1).ToTestCaseData().Returns(2);
                 yield return new RoundBuilder()
-                    .Result(0, 1).Result(1, 2).Result(2, 3).Result(3, 0)
+                    .Result(1).Result(2).Result(3).Result(0)
                     .ToTestCaseData().Returns(5);
             }
         }
@@ -165,30 +166,90 @@ namespace RiichiSharp.Tests
         {
             get
             {
-                yield return new RoundBuilder().Unfinished(0).Throws(typeof(RoundRunningException));
-                yield return new RoundBuilder().Result(0, 1).Unfinished(1).Throws(typeof(RoundRunningException));
+                yield return new RoundBuilder().Unfinished().Throws(typeof(RoundRunningException));
+                yield return new RoundBuilder().Result(1).Unfinished().Throws(typeof(RoundRunningException));
 
                 yield return new RoundBuilder(true)
-                    .Result(0, 1).Result(1, 2).Result(2, 3).Result(3, 0)
+                    .Result(1).Result(2).Result(3).Result(0)
                     .ToTestCaseData().Throws(typeof(GameOverException));
                 yield return
-                    new RoundBuilder().Result(0, 1)
-                        .Result(1, 2)
-                        .Result(2, 3)
-                        .Result(3, 0)
-                        .Result(0, 1)
-                        .Result(1, 2)
-                        .Result(2, 3)
-                        .Result(3, 0)
+                    new RoundBuilder().Result(1)
+                        .Result(2)
+                        .Result(3)
+                        .Result(0)
+                        .Result(1)
+                        .Result(2)
+                        .Result(3)
+                        .Result(0)
                         .ToTestCaseData()
                         .Throws(typeof(GameOverException));
             }
         }
 
         [TestCaseSource("NextRound_Exception_Source")]
-        public void NextRound_ThrowsExceptionWhenRoundRunningOrGameFinished(MahjongGame game)
+        public void NextRound_ThrowsExceptionsForInvalidGameState(MahjongGame game)
         {
             game.NextRound();
+        }
+
+        private IEnumerable<TestCaseData> FinishRound_Source
+        {
+            get
+            {
+                yield return new RoundBuilder().Unfinished().Returns(GameState.BetweenRounds);
+                yield return new RoundBuilder().Result(1).Unfinished().Returns(GameState.BetweenRounds);
+
+                yield return
+                    new RoundBuilder(true).Result(3).Result(2).Result(1).Unfinished().Returns(GameState.GameFinished);
+                yield return
+                    new RoundBuilder().Result(3)
+                        .Result(2)
+                        .Result(1)
+                        .Result(0)
+                        .Result(3)
+                        .Result(2)
+                        .Result(1)
+                        .Unfinished()
+                        .Returns(GameState.GameFinished);
+            }
+        }
+
+        [TestCaseSource("FinishRound_Source")]
+        public GameState FinishRound_ResultsInCorrectGameState(MahjongGame game)
+        {
+            game.FinishRound(new RoundResult{Winner = 0});
+            return game.State;
+        }
+
+        private IEnumerable<TestCaseData> FinishRound_Exception_Source
+        {
+            get
+            {
+                yield return new RoundBuilder().ToTestCaseData().Throws(typeof (NoRoundRunningException));
+                yield return new RoundBuilder().Result(0).ToTestCaseData().Throws(typeof (NoRoundRunningException));
+                yield return new RoundBuilder().Result(0).Result(1).Result(1).ToTestCaseData().Throws(typeof (NoRoundRunningException));
+
+                yield return
+                    new RoundBuilder(true).Result(3).Result(2).Result(1).Result(0).ToTestCaseData().Throws(typeof (GameOverException));
+                yield return
+                    new RoundBuilder().Result(3)
+                        .Result(2)
+                        .Result(1)
+                        .Result(0)
+                        .Result(3)
+                        .Result(2)
+                        .Result(1)
+                        .Result(0)
+                        .ToTestCaseData()
+                        .Throws(typeof (GameOverException));
+            }
+        }
+
+        [TestCaseSource("FinishRound_Exception_Source")]
+        public GameState FinishRound_ThrowsExceptionsForInvalidGameState(MahjongGame game)
+        {
+            game.FinishRound(new RoundResult());
+            return game.State;
         }
 
         private IEnumerable<TestCaseData> NextRound_Oya_Source
@@ -196,12 +257,12 @@ namespace RiichiSharp.Tests
             get
             {
                 yield return new RoundBuilder().ToTestCaseData().Returns(0);
-                yield return new RoundBuilder().Result(0, 1).ToTestCaseData().Returns(1);
+                yield return new RoundBuilder().Result(1).ToTestCaseData().Returns(1);
                 yield return new RoundBuilder()
-                    .Result(0, 1).Result(1, 2).Result(2, 3)
+                    .Result(1).Result(2).Result(3)
                     .ToTestCaseData().Returns(3);
                 yield return new RoundBuilder()
-                    .Result(0, 1).Result(1, 2).Result(2, 3).Result(3, 0)
+                    .Result(1).Result(2).Result(3).Result(0)
                     .ToTestCaseData().Returns(0);
             }
         }

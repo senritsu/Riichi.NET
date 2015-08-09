@@ -22,22 +22,30 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 \***************************************************************************/
 
-using System;
+using System.Collections.Generic;
+using System.Linq;
+using NUnit.Framework;
 
-namespace RiichiSharp.Rules
+namespace RiichiSharp.Tests
 {
-    public class RoundRunningException : InvalidOperationException
+    [TestFixture]
+    public class HandTests
     {
-        public RoundRunningException() : base("A round is still in progress") { }
-    }
+        private IEnumerable<TestCaseData> Open_Source
+        {
+            get
+            {
+                yield return new TestCaseData(new Hand {Tiles = new[] {new TileState {Tile = Tile.Pin1}}.ToList()}).Returns(false);
+                yield return new TestCaseData(new Hand { Tiles = new[] { new TileState { Tile = Tile.Pin1 }, new TileState { Tile = Tile.Pin1 }, new TileState { Tile = Tile.Pin1 }, new TileState { Tile = Tile.Pin1 } }.ToList() }).Returns(false);
+                yield return new TestCaseData(new Hand {Tiles = new[] {new TileState {Tile = Tile.Pin1, Open = true}}.ToList()}).Returns(true);
+                yield return new TestCaseData(new Hand { Tiles = new[] { new TileState { Tile = Tile.Pin1, Open = true }, new TileState { Tile = Tile.Pin1, Open = true }, new TileState { Tile = Tile.Pin1 } }.ToList() }).Returns(true);
+            }
+        } 
 
-    public class NoRoundRunningException : InvalidOperationException
-    {
-        public NoRoundRunningException() : base("No round currently running") { }
-    }
-
-    public class GameOverException : InvalidOperationException
-    {
-        public GameOverException() : base("The game is already finished") {}
+        [TestCaseSource("Open_Source")]
+        public bool Open(Hand hand)
+        {
+            return hand.Open;
+        }
     }
 }
