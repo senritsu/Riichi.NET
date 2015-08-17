@@ -51,6 +51,11 @@ namespace RiichiSharp.Analysis
             return delta > 0 && delta == tiles.Count - 1 && suits.Distinct().Count() == 1 && ValidSequenceSuits.Contains(suits.First());
         }
 
+        public static int NormalizedTileCount(this IEnumerable<IReadOnlyList<TileState>> melds)
+        {
+            return melds.Select(x => x.Count >= 3 ? 3 : 2).Sum();
+        }
+
         public static MeldState MeldState(this IReadOnlyList<Tile> tiles)
         {
             var sequence = tiles.IsSequence();
