@@ -254,6 +254,12 @@ namespace RiichiSharp.Rules
         {
             return DrawFromSource(player, _deadWall);
         }
+
+        public void RevealNextDora()
+        {
+            throw new NotImplementedException();
+        }
+
         public void Discard(MahjongPlayer player, TileState tile)
         {
             if (!player.CanDiscard)
