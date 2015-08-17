@@ -23,6 +23,8 @@ THE SOFTWARE.
 \***************************************************************************/
 
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using RiichiSharp.Domain;
 using RiichiSharp.Rules;
 
@@ -35,6 +37,12 @@ namespace RiichiSharp.History
     public class PlayerActionEventArgs : EventArgs
     {
         public int Player { get; set; }
+    }
+
+    public class MeldFormedEventArgs : PlayerActionEventArgs
+    {
+        public IReadOnlyList<TileState> Meld { get; set; }
+        public bool Closed { get { return !Meld.Any(x => x.Open); } }
     }
 
     public class TileEventArgs : PlayerActionEventArgs
@@ -57,7 +65,7 @@ namespace RiichiSharp.History
         public TileState Ura { get; set; }
     }
 
-    public class CallEventArgs : TileEventArgs
+    public class TileCalledEventArgs : TileEventArgs
     {
         public CallType Call { get; set; }
     }
