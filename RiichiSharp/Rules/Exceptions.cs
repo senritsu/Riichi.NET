@@ -40,4 +40,19 @@ namespace RiichiSharp.Rules
     {
         public GameOverException() : base("The game is already finished") {}
     }
+
+    public class OpponentsTurnException : WrongTimingException
+    {
+        public OpponentsTurnException() : base("Can't perform this action during opponents turn") { }
+    }
+
+    public class NotOpponentsTurnException : WrongTimingException
+    {
+        public NotOpponentsTurnException() : base("Can only perform this action during opponents turn") { }
+    }
+
+    public class WrongTimingException : InvalidOperationException
+    {
+        public WrongTimingException(string message = "Can't perform this action at this time") : base(message) { }
+    }
 }
