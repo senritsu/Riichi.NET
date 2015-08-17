@@ -62,6 +62,7 @@ namespace RiichiSharp.Rules
         public int Points { get { return _game.Points[this]; } }
         public bool Yakitori { get { return _game.Yakitori[this]; } }
         public bool Oya { get { return _game.Oya == this; } }
+        public bool Open { get { return Hand.Any(x => x.Open); } }
 
         public IReadOnlyCollection<TileState> Hand
         {
