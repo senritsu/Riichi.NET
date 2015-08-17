@@ -52,6 +52,7 @@
     <Compile Include="Tile.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utilities\LINQExtensions.cs" />
+    <Compile Include="Utilities\PlayerSpecific.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
