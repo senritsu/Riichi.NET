@@ -24,6 +24,7 @@ THE SOFTWARE.
 
 using System;
 using System.Linq;
+using RiichiSharp.Enums;
 
 namespace RiichiSharp
 {
@@ -36,54 +37,6 @@ namespace RiichiSharp
         {
             return state.Tile;
         }
-    }
-
-    public enum Tile
-    {
-        Pin1,
-        Pin2,
-        Pin3,
-        Pin4,
-        Pin5,
-        Pin6,
-        Pin7,
-        Pin8,
-        Pin9,
-        Sou1,
-        Sou2,
-        Sou3,
-        Sou4,
-        Sou5,
-        Sou6,
-        Sou7,
-        Sou8,
-        Sou9,
-        Man1,
-        Man2,
-        Man3,
-        Man4,
-        Man5,
-        Man6,
-        Man7,
-        Man8,
-        Man9,
-        Ton,
-        Nan,
-        Xia,
-        Pei,
-        Haku,
-        Hatsu,
-        Chun
-    }
-
-    public enum Suit
-    {
-        None = 0,
-        Pinzu = 9,
-        Souzu = 18,
-        Manzu = 27,
-        Kazehai = 31,
-        Sangenpai = 34
     }
 
     public static class Tiles
@@ -138,10 +91,10 @@ namespace RiichiSharp
             int mod;
             switch (suit)
             {
-                case RiichiSharp.Suit.Kazehai:
+                case Enums.Suit.Kazehai:
                     mod = 4;
                     break;
-                case RiichiSharp.Suit.Sangenpai:
+                case Enums.Suit.Sangenpai:
                     mod = 3;
                     break;
                 default:
@@ -167,7 +120,7 @@ namespace RiichiSharp
 
         public static bool CanFormSequence(this Tile tile)
         {
-            return (int) tile < (int) RiichiSharp.Suit.Manzu;
+            return (int)tile < (int)Enums.Suit.Manzu;
         }
     }
 }

@@ -22,17 +22,63 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 \***************************************************************************/
 
-using RiichiSharp.Enums;
-
-namespace RiichiSharp.Rules
+namespace RiichiSharp.Enums
 {
-    public class WinContext
+    public enum Yaku
     {
-        public Wind SeatWind { get; set; }
-
-        public WinningDraw WinningDraw { get; set; }
-        public WinTiming WinTiming { get; set; }
-
-        public bool Ippatsu { get; set; }
+        // 1
+        Riichi,
+        MenzenTsumo,
+        Ippatsu,
+        Chankan,
+        RinshanKaihou,
+        HaiteiRaoyue,
+        HouteiRaoyui,
+        Pinfu,
+        Iipeikou,
+        TanYao,
+        Yakuhai,
+        Kazepai,
+        // 2
+        DabuRii,
+        OpenRiichi,
+        Dabukaze,
+        ChiiToitsu,
+        SanshokuDoujun,
+        Ittsuu,
+        Toitoi,
+        SanshokuDoukou,
+        SanAnkou,
+        SanKantsu,
+        Chanta,
+        // 3
+        HonItsu,
+        Junchan,
+        Ryanpeikou,
+        // 4
+        Honrou,
+        Shousangen,
+        // 6
+        ChinItsu,
+        // Yakuman
+        Tenhou,
+        Chihou,
+        Renhou,
+        KokushiMusou,
+        ChuurenPoutou,
+        SuuAnkou,
+        Daisangen,
+        Shousuushi,
+        SuuKantsu,
+        Ryuuisou,
+        Tsuuisou,
+        Chinroutou,
+        Daisharin,
+        // Double Yakuman
+        KokushiMusou13SidedWait,
+        ChuurenPoutou9SidedWait,
+        Daisuushi,
+        Daichisei,
+        Paarenchan
     }
 }

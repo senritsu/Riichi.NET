@@ -26,17 +26,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using RiichiSharp.Analysis;
+using RiichiSharp.Enums;
 
 namespace RiichiSharp.Rules
 {
-    public enum CallType
-    {
-        Chi,
-        Pon,
-        Kan,
-        Ron
-    }
-
     public class MahjongPlayer
     {
         private readonly MahjongGame _game;

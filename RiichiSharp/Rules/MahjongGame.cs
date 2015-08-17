@@ -26,26 +26,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using RiichiSharp.Analysis;
+using RiichiSharp.Enums;
 using RiichiSharp.Utilities;
 
 namespace RiichiSharp.Rules
 {
-    public enum Wind
-    {
-        Ton = Tile.Ton,
-        Nan = Tile.Nan,
-        Xia = Tile.Xia,
-        Pei = Tile.Pei
-    }
-
-    public enum GameState
-    {
-        Preparation,
-        RoundRunning,
-        BetweenRounds,
-        GameFinished
-    }
-
     public class MahjongGame
     {
         public bool Tonpuuseen { get; private set; }

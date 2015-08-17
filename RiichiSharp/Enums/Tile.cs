@@ -22,17 +22,43 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 \***************************************************************************/
 
-using RiichiSharp.Enums;
-
-namespace RiichiSharp.Rules
+namespace RiichiSharp.Enums
 {
-    public class WinContext
+    public enum Tile
     {
-        public Wind SeatWind { get; set; }
-
-        public WinningDraw WinningDraw { get; set; }
-        public WinTiming WinTiming { get; set; }
-
-        public bool Ippatsu { get; set; }
+        Pin1,
+        Pin2,
+        Pin3,
+        Pin4,
+        Pin5,
+        Pin6,
+        Pin7,
+        Pin8,
+        Pin9,
+        Sou1,
+        Sou2,
+        Sou3,
+        Sou4,
+        Sou5,
+        Sou6,
+        Sou7,
+        Sou8,
+        Sou9,
+        Man1,
+        Man2,
+        Man3,
+        Man4,
+        Man5,
+        Man6,
+        Man7,
+        Man8,
+        Man9,
+        Ton,
+        Nan,
+        Xia,
+        Pei,
+        Haku,
+        Hatsu,
+        Chun
     }
 }

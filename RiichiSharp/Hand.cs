@@ -27,14 +27,6 @@ using System.Linq;
 
 namespace RiichiSharp
 {
-    public enum RiichiState
-    {
-        None,
-        Riichi,
-        DoubleRiichi,
-        OpenRiichi
-    }
-
     public class Hand
     {
         public List<TileState> Tiles { get; set; }

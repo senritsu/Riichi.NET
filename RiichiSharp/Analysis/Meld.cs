@@ -25,19 +25,10 @@ THE SOFTWARE.
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using RiichiSharp.Enums;
 
 namespace RiichiSharp.Analysis
 {
-    public enum MeldState
-    {
-        Invalid,
-        Incomplete,
-        Chi,
-        Pon,
-        Kan,
-        Pair
-    }
-
     public static class MeldExtensions
     {
         private static readonly Suit[] ValidSequenceSuits = {Suit.Manzu, Suit.Pinzu, Suit.Souzu};
@@ -65,35 +56,35 @@ namespace RiichiSharp.Analysis
             {
                 case 0:
                 case 1:
-                    return Analysis.MeldState.Incomplete;
+                    return Enums.MeldState.Incomplete;
                 case 2:
                     if (onlyIdenticalTiles)
                     {
-                        return Analysis.MeldState.Pair;
+                        return Enums.MeldState.Pair;
                     }
                     if (sequence || Math.Abs(tiles.First() - tiles.Last()) == 2)
                     {
-                        return Analysis.MeldState.Incomplete;
+                        return Enums.MeldState.Incomplete;
                     }
                     goto default;
                 case 3:
                     if (onlyIdenticalTiles)
                     {
-                        return Analysis.MeldState.Pon;
+                        return Enums.MeldState.Pon;
                     }
                     if (sequence)
                     {
-                        return Analysis.MeldState.Chi;
+                        return Enums.MeldState.Chi;
                     }
                     goto default;
                 case 4:
                     if (onlyIdenticalTiles)
                     {
-                        return Analysis.MeldState.Kan;
+                        return Enums.MeldState.Kan;
                     }
                     goto default;
                 default:
-                    return Analysis.MeldState.Invalid;
+                    return Enums.MeldState.Invalid;
             }
         }
     }

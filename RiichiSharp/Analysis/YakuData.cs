@@ -23,6 +23,7 @@ THE SOFTWARE.
 \***************************************************************************/
 
 using System.Collections.Generic;
+using RiichiSharp.Enums;
 
 namespace RiichiSharp.Analysis
 {
