@@ -22,31 +22,13 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 \***************************************************************************/
 
-using System.Collections.Generic;
-using System.Linq;
 using NUnit.Framework;
-using RiichiSharp.Domain;
 
 namespace RiichiSharp.Tests
 {
     [TestFixture]
     public class HandTests
     {
-        private IEnumerable<TestCaseData> Open_Source
-        {
-            get
-            {
-                yield return new TestCaseData(new Hand {Tiles = new[] {new TileState {Tile = Tile.Pin1}}.ToList()}).Returns(false);
-                yield return new TestCaseData(new Hand { Tiles = new[] { new TileState { Tile = Tile.Pin1 }, new TileState { Tile = Tile.Pin1 }, new TileState { Tile = Tile.Pin1 }, new TileState { Tile = Tile.Pin1 } }.ToList() }).Returns(false);
-                yield return new TestCaseData(new Hand {Tiles = new[] {new TileState {Tile = Tile.Pin1, Open = true}}.ToList()}).Returns(true);
-                yield return new TestCaseData(new Hand { Tiles = new[] { new TileState { Tile = Tile.Pin1, Open = true }, new TileState { Tile = Tile.Pin1, Open = true }, new TileState { Tile = Tile.Pin1 } }.ToList() }).Returns(true);
-            }
-        } 
 
-        [TestCaseSource("Open_Source")]
-        public bool Open(Hand hand)
-        {
-            return hand.Open;
-        }
     }
 }
