@@ -39,7 +39,7 @@ namespace RiichiSharp
         }
     }
 
-    public static class Tiles
+    public static class TileGroup
     {
         public static readonly Tile[] Terminals = {Tile.Pin1, Tile.Pin9, Tile.Sou1, Tile.Sou9, Tile.Man1, Tile.Man9};
         public static readonly Tile[] Honors = {Tile.Ton, Tile.Nan, Tile.Xia, Tile.Pei, Tile.Haku, Tile.Hatsu, Tile.Chun};
@@ -50,7 +50,7 @@ namespace RiichiSharp
     {
         public static bool IsHonor(this Tile tile)
         {
-            return Tiles.Honors.Contains(tile);
+            return TileGroup.Honors.Contains(tile);
         }
 
         public static bool IsNumeric(this Tile tile)
@@ -60,12 +60,12 @@ namespace RiichiSharp
 
         public static bool IsSimple(this Tile tile)
         {
-            return Tiles.Simples.Contains(tile);
+            return TileGroup.Simples.Contains(tile);
         }
 
         public static bool IsTerminal(this Tile tile)
         {
-            return Tiles.Terminals.Contains(tile);
+            return TileGroup.Terminals.Contains(tile);
         }
 
         public static Suit Suit(this Tile tile)
