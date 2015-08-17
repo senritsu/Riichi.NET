@@ -22,10 +22,21 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 \***************************************************************************/
 
+using System;
+using System.Collections.Generic;
+
 namespace RiichiSharp.Analysis
 {
-    public class HandAnalyzer
+    public static class HandAnalyzer
     {
+        public static IEnumerable<IReadOnlyCollection<TileState>> PossibleMelds(this IEnumerable<TileState> tiles, TileState other)
+        {
+            throw new NotImplementedException();
+        }
 
+        public static int Shanten(IEnumerable<TileState> hand, IEnumerable<IReadOnlyCollection<TileState>> melds)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
