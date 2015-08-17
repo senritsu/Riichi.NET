@@ -22,6 +22,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 \***************************************************************************/
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using RiichiSharp.Utilities;
@@ -106,18 +107,25 @@ namespace RiichiSharp.Rules
 
         private readonly List<RoundState> _rounds = new List<RoundState>();
         public IReadOnlyCollection<RoundState> Rounds { get { return _rounds; } }
+
         public RoundState CurrentRound { get { return Rounds.LastOrDefault(); } }
 
-        public int[] Points { get; set; }
+        public PlayerSpecificObject<MahjongPlayer> Players { get; private set; }
+        public MahjongPlayer ActivePlayer { get; private set; }
+
+        public PlayerSpecificValue<int> Points { get; set; }
         public int RiichiPoints { set; get; }
 
-        public bool[] Yakitori { get; set; }
+        public PlayerSpecificValue<bool> Yakitori { get; set; }
 
         public MahjongGame(bool tonpuusen = false)
         {
             Tonpuuseen = tonpuusen;
-            Points = new int[4];
-            Yakitori = new[] {false, false, false, false};
+            Points = new PlayerSpecificValue<int>();
+            Yakitori = new PlayerSpecificValue<bool>();
+            Players = new PlayerSpecificObject<MahjongPlayer>(
+                new MahjongPlayer(this, 0), new MahjongPlayer(this, 1),
+                new MahjongPlayer(this, 2), new MahjongPlayer(this, 3));
         }
 
         public void FinishRound(RoundResult result)
