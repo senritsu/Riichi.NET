@@ -22,8 +22,10 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 \***************************************************************************/
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using RiichiSharp.Analysis;
 using RiichiSharp.Utilities;
 
 namespace RiichiSharp.Rules
@@ -106,18 +108,35 @@ namespace RiichiSharp.Rules
 
         private readonly List<RoundState> _rounds = new List<RoundState>();
         public IReadOnlyCollection<RoundState> Rounds { get { return _rounds; } }
+
         public RoundState CurrentRound { get { return Rounds.LastOrDefault(); } }
 
-        public int[] Points { get; set; }
+        public PlayerSpecificObject<MahjongPlayer> Players { get; private set; }
+        public MahjongPlayer ActivePlayer { get; private set; }
+
+        public PlayerSpecificValue<int> Points { get; set; }
         public int RiichiPoints { set; get; }
 
-        public bool[] Yakitori { get; set; }
+        public PlayerSpecificValue<bool> Yakitori { get; set; }
 
         public MahjongGame(bool tonpuusen = false)
         {
             Tonpuuseen = tonpuusen;
-            Points = new int[4];
-            Yakitori = new[] {false, false, false, false};
+            Points = new PlayerSpecificValue<int>();
+            Yakitori = new PlayerSpecificValue<bool>();
+            Players = new PlayerSpecificObject<MahjongPlayer>(
+                new MahjongPlayer(this, 0), new MahjongPlayer(this, 1),
+                new MahjongPlayer(this, 2), new MahjongPlayer(this, 3));
+        }
+
+        public void DeclareDraw()
+        {
+            var result = new RoundResult();
+            foreach (var player in Players)
+            {
+                result.Tenpai[player] = HandAnalyzer.Shanten(player.Hand, player.Melds) == 0;
+            }
+            FinishRound(result);
         }
 
         public void FinishRound(RoundResult result)
@@ -132,6 +151,20 @@ namespace RiichiSharp.Rules
             }
 
             CurrentRound.Result = result;
+        }
+
+        public void NextTurn()
+        {
+            switch (State)
+            {
+                case GameState.Preparation:
+                case GameState.BetweenRounds:
+                    throw new NoRoundRunningException();
+                case GameState.GameFinished:
+                    throw new GameOverException();
+            }
+
+            ActivePlayer = Players[(ActivePlayer + 1)%4];
         }
 
         public void NextRound()
@@ -198,5 +231,38 @@ namespace RiichiSharp.Rules
         public List<Tile> Uradora { get; set; }
         
         public RoundResult Result { get; set; }
+
+        private Tile DrawFromSource(MahjongPlayer player, IList<TileState> source)
+        {
+            if (!player.CanDraw)
+            {
+                throw new WrongTimingException();
+            }
+
+            var tile = source.Last();
+            source.RemoveAt(source.Count - 1);
+            _hands[player].Add(tile);
+            return tile;
+        }
+
+        public Tile DrawFromWall(MahjongPlayer player)
+        {
+            return DrawFromSource(player, _wall);
+        }
+
+        public Tile DrawFromDeadWall(MahjongPlayer player)
+        {
+            return DrawFromSource(player, _deadWall);
+        }
+        public void Discard(MahjongPlayer player, TileState tile)
+        {
+            if (!player.CanDiscard)
+            {
+                throw new WrongTimingException();
+            }
+
+            _hands[player].Remove(tile);
+            _ponds[player].Add(tile);
+        }
     }
 }

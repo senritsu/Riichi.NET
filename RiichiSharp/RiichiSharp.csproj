@@ -45,6 +45,7 @@
     <Compile Include="Analysis\Meld.cs" />
     <Compile Include="History\Events.cs" />
     <Compile Include="Rules\Exceptions.cs" />
+    <Compile Include="Rules\MahjongPlayer.cs" />
     <Compile Include="Rules\WinContext.cs" />
     <Compile Include="Analysis\Yaku.cs" />
     <Compile Include="Analysis\YakuDetails.cs" />
