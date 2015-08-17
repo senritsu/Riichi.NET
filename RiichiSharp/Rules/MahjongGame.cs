@@ -177,6 +177,14 @@ namespace RiichiSharp.Rules
             get { return (Wind) (Tile.Ton + Oya); }
         }
 
+        public TileState LastDiscard { get { throw new NotImplementedException(); } }
+
+        private readonly List<TileState> _wall = new List<TileState>();
+        public IReadOnlyCollection<TileState> Wall { get { return _wall; } }
+
+        private readonly List<TileState> _deadWall = new List<TileState>();
+        public IReadOnlyCollection<TileState> DeadWall { get { return _deadWall; } }
+
         private readonly PlayerSpecificCollection<TileState> _ponds = new PlayerSpecificCollection<TileState>();
         public IPlayerSpecificReadOnlyCollection<TileState> Ponds { get { return _ponds; } }
 
