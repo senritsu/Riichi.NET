@@ -160,11 +160,11 @@ namespace RiichiSharp.Rules
         public bool Draw { get { return !Winner.HasValue; } }
 
         public int? Winner { get; set; }
-        public bool[] Tenpai { get; set; }
+        public PlayerSpecificValue<bool> Tenpai { get; private set; }
 
         public RoundResult()
         {
-            Tenpai = new bool[4];
+            Tenpai = new PlayerSpecificValue<bool>();
         }
     }
 
@@ -176,6 +176,15 @@ namespace RiichiSharp.Rules
         {
             get { return (Wind) (Tile.Ton + Oya); }
         }
+
+        private readonly PlayerSpecificCollection<TileState> _ponds = new PlayerSpecificCollection<TileState>();
+        public IPlayerSpecificReadOnlyCollection<TileState> Ponds { get { return _ponds; } }
+
+        private readonly PlayerSpecificCollection<TileState> _hands = new PlayerSpecificCollection<TileState>();
+        public IPlayerSpecificReadOnlyCollection<TileState> Hands { get { return _hands; } }
+
+        private readonly PlayerSpecificCollection<TileState[]> _melds = new PlayerSpecificCollection<TileState[]>();
+        public IPlayerSpecificReadOnlyCollection<TileState[]> Melds { get { return _melds; } }
 
         public List<Tile> Dora { get; set; }
         public List<Tile> Uradora { get; set; }
