@@ -213,10 +213,10 @@ namespace RiichiSharp.Rules
         public TileState LastDiscard { get { throw new NotImplementedException(); } }
 
         private readonly List<TileState> _wall = new List<TileState>();
-        public IReadOnlyCollection<TileState> Wall { get { return _wall; } }
+        public IReadOnlyList<TileState> Wall { get { return _wall; } }
 
         private readonly List<TileState> _deadWall = new List<TileState>();
-        public IReadOnlyCollection<TileState> DeadWall { get { return _deadWall; } }
+        public IReadOnlyList<TileState> DeadWall { get { return _deadWall; } }
 
         private readonly PlayerSpecificCollection<TileState> _ponds = new PlayerSpecificCollection<TileState>();
         public IPlayerSpecificReadOnlyCollection<TileState> Ponds { get { return _ponds; } }
@@ -227,9 +227,12 @@ namespace RiichiSharp.Rules
         private readonly PlayerSpecificCollection<TileState[]> _melds = new PlayerSpecificCollection<TileState[]>();
         public IPlayerSpecificReadOnlyCollection<TileState[]> Melds { get { return _melds; } }
 
-        public List<Tile> Dora { get; set; }
-        public List<Tile> Uradora { get; set; }
-        
+        private readonly List<TileState> _dora = new List<TileState>();
+        public IReadOnlyList<TileState> Dora { get { return _dora; } }
+
+        private readonly List<TileState> _uradora = new List<TileState>();
+        public IReadOnlyList<TileState> Uradora { get { return _uradora; } }
+
         public RoundResult Result { get; set; }
 
         private Tile DrawFromSource(MahjongPlayer player, IList<TileState> source)
@@ -255,9 +258,18 @@ namespace RiichiSharp.Rules
             return DrawFromSource(player, _deadWall);
         }
 
-        public void RevealNextDora()
+        public TileState RevealNextDora()
         {
-            throw new NotImplementedException();
+            var i = 9 - Dora.Count * 2;
+
+            var dora = DeadWall[i];
+            var uradora = DeadWall[i - 1];
+
+            _dora.Add(dora);
+            _uradora.Add(uradora);
+
+            dora.Open = true;
+            return dora;
         }
 
         public void Discard(MahjongPlayer player, TileState tile)
