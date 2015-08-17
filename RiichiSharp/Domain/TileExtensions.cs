@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Linq;
-using RiichiSharp.Enums;
 
-namespace RiichiSharp.Rules
+namespace RiichiSharp.Domain
 {
     public static class TileExtensions
     {
@@ -49,10 +48,10 @@ namespace RiichiSharp.Rules
             int mod;
             switch (suit)
             {
-                case Enums.Suit.Kazehai:
+                case Domain.Suit.Kazehai:
                     mod = 4;
                     break;
-                case Enums.Suit.Sangenpai:
+                case Domain.Suit.Sangenpai:
                     mod = 3;
                     break;
                 default:
@@ -78,7 +77,7 @@ namespace RiichiSharp.Rules
 
         public static bool CanFormSequence(this Tile tile)
         {
-            return (int)tile < (int)Enums.Suit.Manzu;
+            return (int)tile < (int)Domain.Suit.Manzu;
         }
     }
 }

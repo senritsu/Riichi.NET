@@ -36,7 +36,7 @@ namespace RiichiSharp.Tests
         [TestCase(3, ExpectedResult = Wind.Pei)]
         public Wind RoundWind(int oya)
         {
-            return new RoundState{Oya = oya}.RoundWind;
+            return new Round{Oya = oya}.RoundWind;
         }
     }
 }

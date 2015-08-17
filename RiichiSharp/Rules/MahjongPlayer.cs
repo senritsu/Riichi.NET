@@ -26,7 +26,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using RiichiSharp.Analysis;
-using RiichiSharp.Enums;
+using RiichiSharp.Domain;
 
 namespace RiichiSharp.Rules
 {

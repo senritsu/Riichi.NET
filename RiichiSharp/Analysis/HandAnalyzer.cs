@@ -24,6 +24,7 @@ THE SOFTWARE.
 
 using System;
 using System.Collections.Generic;
+using RiichiSharp.Domain;
 
 namespace RiichiSharp.Analysis
 {

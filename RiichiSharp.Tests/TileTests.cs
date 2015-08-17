@@ -25,6 +25,7 @@ THE SOFTWARE.
 using System;
 using System.Collections.Generic;
 using NUnit.Framework;
+using RiichiSharp.Domain;
 
 namespace RiichiSharp.Tests
 {

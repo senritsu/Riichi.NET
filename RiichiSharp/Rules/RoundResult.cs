@@ -23,6 +23,7 @@ THE SOFTWARE.
 \***************************************************************************/
 
 using System.Collections.Generic;
+using RiichiSharp.Domain;
 using RiichiSharp.Utilities;
 
 namespace RiichiSharp.Rules

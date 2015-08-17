@@ -23,6 +23,7 @@ THE SOFTWARE.
 \***************************************************************************/
 
 using System;
+using RiichiSharp.Domain;
 using RiichiSharp.Rules;
 
 namespace RiichiSharp.History

@@ -25,9 +25,8 @@ THE SOFTWARE.
 
 using System;
 using System.Linq;
-using RiichiSharp.Enums;
 
-namespace RiichiSharp.Rules
+namespace RiichiSharp.Domain
 {
     public static class TileGroup
     {

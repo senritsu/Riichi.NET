@@ -25,7 +25,6 @@ THE SOFTWARE.
 using System.Collections.Generic;
 using System.Linq;
 using RiichiSharp.Analysis;
-using RiichiSharp.Enums;
 using RiichiSharp.Utilities;
 
 namespace RiichiSharp.Rules
@@ -90,10 +89,10 @@ namespace RiichiSharp.Rules
             }
         }
 
-        private readonly List<RoundState> _rounds = new List<RoundState>();
-        public IReadOnlyCollection<RoundState> Rounds { get { return _rounds; } }
+        private readonly List<Round> _rounds = new List<Round>();
+        public IReadOnlyCollection<Round> Rounds { get { return _rounds; } }
 
-        public RoundState CurrentRound { get { return Rounds.LastOrDefault(); } }
+        public Round CurrentRound { get { return Rounds.LastOrDefault(); } }
 
         public PlayerSpecificObject<MahjongPlayer> Players { get; private set; }
         public MahjongPlayer ActivePlayer { get; private set; }
@@ -161,7 +160,7 @@ namespace RiichiSharp.Rules
                     throw new GameOverException();
             }
 
-            _rounds.Add(new RoundState
+            _rounds.Add(new Round
             {
                 Oya = Oya,
             });

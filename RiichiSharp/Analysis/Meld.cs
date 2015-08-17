@@ -25,7 +25,7 @@ THE SOFTWARE.
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using RiichiSharp.Enums;
+using RiichiSharp.Domain;
 
 namespace RiichiSharp.Analysis
 {
@@ -56,35 +56,35 @@ namespace RiichiSharp.Analysis
             {
                 case 0:
                 case 1:
-                    return Enums.MeldState.Incomplete;
+                    return Domain.MeldState.Incomplete;
                 case 2:
                     if (onlyIdenticalTiles)
                     {
-                        return Enums.MeldState.Pair;
+                        return Domain.MeldState.Pair;
                     }
                     if (sequence || Math.Abs(tiles.First() - tiles.Last()) == 2)
                     {
-                        return Enums.MeldState.Incomplete;
+                        return Domain.MeldState.Incomplete;
                     }
                     goto default;
                 case 3:
                     if (onlyIdenticalTiles)
                     {
-                        return Enums.MeldState.Pon;
+                        return Domain.MeldState.Pon;
                     }
                     if (sequence)
                     {
-                        return Enums.MeldState.Chi;
+                        return Domain.MeldState.Chi;
                     }
                     goto default;
                 case 4:
                     if (onlyIdenticalTiles)
                     {
-                        return Enums.MeldState.Kan;
+                        return Domain.MeldState.Kan;
                     }
                     goto default;
                 default:
-                    return Enums.MeldState.Invalid;
+                    return Domain.MeldState.Invalid;
             }
         }
     }
