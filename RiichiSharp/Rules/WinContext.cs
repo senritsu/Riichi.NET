@@ -24,14 +24,14 @@ THE SOFTWARE.
 
 namespace RiichiSharp.Rules
 {
-    public enum DrawTiming
+    public enum WinTiming
     {
         FirstTile,
         Normal,
         LastTile
     }
 
-    public enum DrawType
+    public enum WinningDraw
     {
         Tsumo,
         Ron,
@@ -42,8 +42,8 @@ namespace RiichiSharp.Rules
     {
         public Wind SeatWind { get; set; }
 
-        public DrawType DrawType { get; set; }
-        public DrawTiming DrawTiming { get; set; }
+        public WinningDraw WinningDraw { get; set; }
+        public WinTiming WinTiming { get; set; }
 
         public bool Ippatsu { get; set; }
     }

@@ -27,7 +27,7 @@ using System.Linq;
 
 namespace RiichiSharp
 {
-    public struct TileState
+    public class TileState
     {
         public bool Open { get; set; }
         public Tile Tile { get; set; }
