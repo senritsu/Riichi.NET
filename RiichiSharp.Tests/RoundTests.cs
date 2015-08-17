@@ -23,12 +23,13 @@ THE SOFTWARE.
 \***************************************************************************/
 
 using NUnit.Framework;
+using RiichiSharp.Domain;
 using RiichiSharp.Rules;
 
 namespace RiichiSharp.Tests
 {
     [TestFixture]
-    public class RoundStateTests
+    public class RoundTests
     {
         [TestCase(0, ExpectedResult = Wind.Ton)]
         [TestCase(1, ExpectedResult = Wind.Nan)]

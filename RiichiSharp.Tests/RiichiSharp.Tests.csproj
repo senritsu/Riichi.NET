@@ -51,7 +51,7 @@
     <Compile Include="MahjongGameTests.cs" />
     <Compile Include="MeldTests.cs" />
     <Compile Include="RoundResultTests.cs" />
-    <Compile Include="RoundStateTests.cs" />
+    <Compile Include="RoundTests.cs" />
     <Compile Include="TileTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="YakuTests.cs" />
