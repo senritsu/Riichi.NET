@@ -43,6 +43,7 @@
   <ItemGroup>
     <Compile Include="Analysis\HandAnalyzer.cs" />
     <Compile Include="Analysis\Meld.cs" />
+    <Compile Include="History\Events.cs" />
     <Compile Include="Rules\Exceptions.cs" />
     <Compile Include="Rules\WinContext.cs" />
     <Compile Include="Analysis\Yaku.cs" />
@@ -54,7 +55,9 @@
     <Compile Include="Utilities\LINQExtensions.cs" />
     <Compile Include="Utilities\PlayerSpecific.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Events\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
