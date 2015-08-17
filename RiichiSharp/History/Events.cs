@@ -31,12 +31,40 @@ using RiichiSharp.Rules;
 namespace RiichiSharp.History
 {
     public delegate void TileDrawnEventHandler(object sender, TileDrawnEventArgs e);
-    public delegate void TileDiscardedEventHandler(object sender, TileDrawnEventArgs e);
-    public delegate void NewDoraRevealedEventHandler(object sender, TileDrawnEventArgs e);
 
-    public class PlayerActionEventArgs : EventArgs
+    public delegate void TileCalledEventHandler(object sender, TileCalledEventArgs e);
+
+    public delegate void TileDiscardedEventHandler(object sender, TileDiscardedEventArgs e);
+
+    public delegate void MeldFormedEventHandler(object sender, MeldFormedEventArgs e);
+
+    #region abstract classes
+
+    public abstract class PlayerActionEventArgs : EventArgs
     {
         public int Player { get; set; }
+    }
+
+    public abstract class TileEventArgs : PlayerActionEventArgs
+    {
+        public TileState Tile { get; set; }
+    }
+
+    #endregion
+
+    public class TileDrawnEventArgs : TileEventArgs
+    {
+        public bool FromDeadWall { get; set; }
+    }
+
+    public class TileCalledEventArgs : TileEventArgs
+    {
+        public CallType Call { get; set; }
+    }
+
+    public class TileDiscardedEventArgs : TileEventArgs
+    {
+        public RiichiState RiichiState { get; set; }
     }
 
     public class MeldFormedEventArgs : PlayerActionEventArgs
@@ -45,28 +73,8 @@ namespace RiichiSharp.History
         public bool Closed { get { return !Meld.Any(x => x.Open); } }
     }
 
-    public class TileEventArgs : PlayerActionEventArgs
-    {
-        public TileState Tile { get; set; }
-    }
-
-    public class TileDrawnEventArgs : TileEventArgs
-    {
-        public bool FromDeadWall { get; set; }
-    }
-
-    public class TileDiscardedEventArgs : TileEventArgs
-    {
-        public RiichiState RiichiState { get; set; }
-    }
-
     public class NewDoraRevealedEventArgs : TileEventArgs
     {
         public TileState Ura { get; set; }
-    }
-
-    public class TileCalledEventArgs : TileEventArgs
-    {
-        public CallType Call { get; set; }
     }
 }
