@@ -22,18 +22,17 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 \***************************************************************************/
 
-using System.Collections.Generic;
+
+using System;
 using System.Linq;
+using RiichiSharp.Enums;
 
-namespace RiichiSharp
+namespace RiichiSharp.Rules
 {
-    public class Hand
+    public static class TileGroup
     {
-        public List<TileState> Tiles { get; set; }
-
-        public bool Open
-        {
-            get { return Tiles.Any(x => x.Open); }
-        }
+        public static readonly Tile[] Terminals = { Tile.Pin1, Tile.Pin9, Tile.Sou1, Tile.Sou9, Tile.Man1, Tile.Man9 };
+        public static readonly Tile[] Honors = { Tile.Ton, Tile.Nan, Tile.Xia, Tile.Pei, Tile.Haku, Tile.Hatsu, Tile.Chun };
+        public static readonly Tile[] Simples = Enum.GetValues(typeof(Tile)).Cast<Tile>().Except(Terminals).Except(Honors).ToArray();
     }
 }
